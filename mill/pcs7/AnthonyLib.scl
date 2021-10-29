@@ -1,0 +1,1139 @@
+
+////////////////////////////////////////////////////////////////////////////////////////
+                                                                                    
+////////////////               F  U  N  C  T  I  O  N  S                ////////////////
+                                                                                    
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Author: Anthony
+// First Commit Date: 2021-07-04
+// Last Commit Date: 2021-08-26
+// Content: Main Prevent Billet FBs and FCs, Miscellaneous Functions.
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////          WORD LOGIC          //////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION_BLOCK NOP_W    
+
+TITLE = 'Interface for 8 Word variables'
+NAME : 'NOP_W'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT
+    IN1 : WORD;
+    IN2 : WORD;
+    IN3 : WORD;
+    IN4 : WORD;
+    IN5 : WORD;
+    IN6 : WORD;
+    IN7 : WORD;
+    IN8 : WORD;
+END_VAR
+
+VAR_OUTPUT  
+    OUT1 : WORD;
+    OUT2 : WORD;
+    OUT3 : WORD;
+    OUT4 : WORD;
+    OUT5 : WORD;
+    OUT6 : WORD;
+    OUT7 : WORD;
+    OUT8 : WORD;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    OUT1 := IN1;
+    OUT2 := IN2;
+    OUT3 := IN3;
+    OUT4 := IN4;
+    OUT5 := IN5;
+    OUT6 := IN6;
+    OUT7 := IN7;
+    OUT8 := IN8;
+
+// End Function
+END_FUNCTION_BLOCK
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION CAW: WORD    
+
+TITLE = 'Function to swap the two bytes in a word to convert the hideous Siemens Word addressing to the Mankind word addressing'
+NAME : 'CAW'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT
+    IN : WORD;
+END_VAR
+
+VAR_TEMP
+    TW1 : WORD;  
+    TW2 : WORD;           
+    TBY1 AT TW1 : ARRAY[0..1] OF BYTE;
+    TBY2 AT TW2 : ARRAY[0..1] OF BYTE;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    TW1 := IN;
+    TBY2[0] := TBY1[1];
+    TBY2[1] := TBY1[0];
+    CAW := TW2;
+
+// End Function
+END_FUNCTION
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION CADW: DWORD    
+
+TITLE = 'Function to swap the two words in a Dword to convert the hideous Siemens DWord addressing to the Mankind Dword addressing'
+NAME : 'CADW'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT
+    IN : DWORD;
+END_VAR
+
+VAR_TEMP
+    TDW1 : DWORD;  
+    TDW2 : DWORD;           
+    TW1 AT TDW1 : ARRAY[0..1] OF WORD;
+    TW2 AT TDW2 : ARRAY[0..1] OF WORD;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    TDW1 := IN;
+    TW2[0] := TW1[1];
+    TW2[1] := TW1[0];
+    CADW := TDW2;
+
+// End Function
+END_FUNCTION
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION BO_TO_BY: VOID    
+
+TITLE = 'Function to pack 8 booleans to a byte variable'
+NAME : 'BO_TO_BY'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT
+    IN0 : BOOL;
+    IN1 : BOOL;
+    IN2 : BOOL;
+    IN3 : BOOL;
+    IN4 : BOOL;
+    IN5 : BOOL;
+    IN6 : BOOL;
+    IN7 : BOOL;
+END_VAR
+
+VAR_OUTPUT            
+    OUT : BYTE;
+END_VAR
+
+VAR_TEMP
+    TBY : BYTE;             
+    TB AT TBY : ARRAY[0..7] OF BOOL;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    // Assign Input To Bit Array
+    TB[0]  := IN0;
+    TB[1]  := IN1;
+    TB[2]  := IN2;
+    TB[3]  := IN3;
+    TB[4]  := IN4;
+    TB[5]  := IN5;
+    TB[6]  := IN6;
+    TB[7]  := IN7;
+    OUT := TBY;
+
+// End Function
+END_FUNCTION
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION BY_TO_BO: VOID    
+
+TITLE = 'Function to unpack a byte variable to 8 booleans'
+NAME : 'BY_TO_BO'
+VERSION : '1.0'  
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT            
+    IN : BYTE;
+END_VAR
+
+VAR_OUTPUT            
+    OUT0 : BOOL;
+    OUT1 : BOOL;
+    OUT2 : BOOL;
+    OUT3 : BOOL;
+    OUT4 : BOOL;
+    OUT5 : BOOL;
+    OUT6 : BOOL;
+    OUT7 : BOOL;
+END_VAR
+
+VAR_TEMP
+    TBY : BYTE;             
+    TB AT TBY : ARRAY[0..7] OF BOOL;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    // Assign Bit Array To Output
+    TBY := IN;
+    OUT0 := TB[0];
+    OUT1 := TB[1];
+    OUT2 := TB[2];
+    OUT3 := TB[3];
+    OUT4 := TB[4];
+    OUT5 := TB[5];
+    OUT6 := TB[6];
+    OUT7 := TB[7];
+
+// End Function
+END_FUNCTION
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION BY_TO_W: VOID    
+
+TITLE = 'Function to pack 2 bytes to a word variable'
+NAME : 'BY_TO_W'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT
+    IN0 : BYTE;
+    IN1 : BYTE;
+END_VAR
+
+VAR_OUTPUT            
+    OUT : WORD;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    // Assign value of Double Word
+    OUT := (
+        BYTE_TO_WORD (IN0) OR INT_TO_WORD (
+            BYTE_TO_INT (IN1) * WORD_TO_INT (16#100)
+        )
+    );
+    
+// End Function
+END_FUNCTION
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION W_TO_BY: VOID    
+
+TITLE = 'Function to unpack a word variable to 2 bytes'
+NAME : 'W_TO_BY'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT
+    IN : WORD;
+END_VAR
+
+VAR_OUTPUT   
+    OUT0 : BYTE;
+    OUT1 : BYTE;         
+END_VAR
+
+VAR_TEMP
+    TW : WORD;
+    TBY AT TW : ARRAY[0..1] OF BYTE;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    // Assing Default Output
+    TW := CAW (IN := IN);
+    OUT0 := TBY[0];
+    OUT1 := TBY[1];
+        
+// End Function
+END_FUNCTION
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION BO_TO_W: VOID    
+
+TITLE = 'Function to pack 16 booleans to a word variable'
+NAME : 'BO_TO_W'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT
+    IN00 : BOOL;
+    IN01 : BOOL;
+    IN02 : BOOL;
+    IN03 : BOOL;
+    IN04 : BOOL;
+    IN05 : BOOL;
+    IN06 : BOOL;
+    IN07 : BOOL;
+    IN08 : BOOL;
+    IN09 : BOOL;
+    IN10 : BOOL;
+    IN11 : BOOL;
+    IN12 : BOOL;
+    IN13 : BOOL;
+    IN14 : BOOL;
+    IN15 : BOOL;
+END_VAR
+
+VAR_OUTPUT            
+    OUT : WORD;
+END_VAR
+
+VAR_TEMP
+    TW : WORD;             
+    TB AT TW : ARRAY[0..15] OF BOOL;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    // Assign Bits To Word
+    TB[0]  := IN00;
+    TB[1]  := IN01;
+    TB[2]  := IN02;
+    TB[3]  := IN03;
+    TB[4]  := IN04;
+    TB[5]  := IN05;
+    TB[6]  := IN06;
+    TB[7]  := IN07;
+    TB[8]  := IN08;
+    TB[9]  := IN09;
+    TB[10] := IN10;
+    TB[11] := IN11;
+    TB[12] := IN12;
+    TB[13] := IN13;
+    TB[14] := IN14;
+    TB[15] := IN15;
+    OUT := CAW (IN := TW);
+
+// End Function
+END_FUNCTION
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION W_TO_BO: VOID    
+
+TITLE = 'Function to unpack a word variable to 16 booleans'
+NAME : 'W_TO_BO'
+VERSION : '1.0'  
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT            
+    IN : WORD;
+END_VAR
+
+VAR_OUTPUT            
+    OUT00 : BOOL;
+    OUT01 : BOOL;
+    OUT02 : BOOL;
+    OUT03 : BOOL;
+    OUT04 : BOOL;
+    OUT05 : BOOL;
+    OUT06 : BOOL;
+    OUT07 : BOOL;
+    OUT08 : BOOL;
+    OUT09 : BOOL;
+    OUT10 : BOOL;
+    OUT11 : BOOL;
+    OUT12 : BOOL;
+    OUT13 : BOOL;
+    OUT14 : BOOL;
+    OUT15 : BOOL;
+END_VAR
+
+VAR_TEMP
+    TW : WORD;             
+    TB AT TW : ARRAY[0..15] OF BOOL;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    // Assign Word To Bits
+    TW := CAW (IN := IN);
+    OUT00 := TB[0];
+    OUT01 := TB[1];
+    OUT02 := TB[2];
+    OUT03 := TB[3];
+    OUT04 := TB[4];
+    OUT05 := TB[5];
+    OUT06 := TB[6];
+    OUT07 := TB[7];
+    OUT08 := TB[8];
+    OUT09 := TB[9];
+    OUT10 := TB[10];
+    OUT11 := TB[11];
+    OUT12 := TB[12];
+    OUT13 := TB[13];
+    OUT14 := TB[14];
+    OUT15 := TB[15];
+
+// End Function
+END_FUNCTION
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION W_TO_DW: VOID    
+
+TITLE = 'Function to pack 2 words to a double word variable'
+NAME : 'W_TO_DW'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT
+    IN0 : WORD;
+    IN1 : WORD;
+END_VAR
+
+VAR_OUTPUT            
+    OUT : DWORD;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    // Assign value of Double Word
+    OUT := (
+        WORD_TO_DWORD (IN0) OR DINT_TO_DWORD (
+            WORD_TO_DINT (IN1) * DWORD_TO_DINT (16#10000)
+        )   
+    );
+    
+// End Function
+END_FUNCTION
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION DW_TO_W: VOID    
+
+TITLE = 'Function to unpack a double word variable to 2 words'
+NAME : 'DW_TO_W'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT
+    IN : DWORD;
+END_VAR
+
+VAR_OUTPUT   
+    OUT0 : WORD;
+    OUT1 : WORD;         
+END_VAR
+
+VAR_TEMP
+    TDW : DWORD;
+    TW AT TDW : ARRAY[0..1] OF WORD;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    // Assing Default Output
+    TDW := CADW (IN := IN);
+    OUT0 := TW[0];
+    OUT1 := TW[1];
+        
+// End Function
+END_FUNCTION
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION CMP_W: VOID    
+
+TITLE = 'Function to compare 2 word variables'
+NAME : 'CMP_W'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT
+    IN1 : WORD;
+    IN2 : WORD;
+END_VAR
+
+VAR_OUTPUT   
+    GT : BOOL;
+    GE : BOOL;
+    EQ : BOOL;
+    LE : BOOL;
+    LT : BOOL;         
+END_VAR
+
+VAR_TEMP
+    TI : ARRAY[0..1] OF INT;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    // Assing Input
+    TI[0] := WORD_TO_INT (IN1);
+    TI[1] := WORD_TO_INT (IN2);
+    // Assing Output
+    GT := TI[0] >  TI[1];
+    GE := TI[0] >= TI[1];
+    EQ := TI[0]  = TI[1];
+    LE := TI[0] <= TI[1];
+    LT := TI[0] <  TI[1];
+        
+// End Function
+END_FUNCTION
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////          REAL LOGIC          //////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION_BLOCK NOP_R  
+
+TITLE = 'Interface for 8 Real variables'
+NAME : 'NOP_R'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT
+    IN1 : REAL;
+    IN2 : REAL;
+    IN3 : REAL;
+    IN4 : REAL;
+    IN5 : REAL;
+    IN6 : REAL;
+    IN7 : REAL;
+    IN8 : REAL;
+END_VAR
+
+VAR_OUTPUT  
+    OUT1 : REAL;
+    OUT2 : REAL;
+    OUT3 : REAL;
+    OUT4 : REAL;
+    OUT5 : REAL;
+    OUT6 : REAL;
+    OUT7 : REAL;
+    OUT8 : REAL;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    OUT1 := IN1;
+    OUT2 := IN2;
+    OUT3 := IN3;
+    OUT4 := IN4;
+    OUT5 := IN5;
+    OUT6 := IN6;
+    OUT7 := IN7;
+    OUT8 := IN8;
+
+// End Function
+END_FUNCTION_BLOCK
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////        STRING LOGIC          //////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION_BLOCK NOP_S  
+
+TITLE = 'Interface for 8 String variables'
+NAME : 'NOP_S'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT
+    IN1 : STRING;
+    IN2 : STRING;
+    IN3 : STRING;
+    IN4 : STRING;
+    IN5 : STRING;
+    IN6 : STRING;
+    IN7 : STRING;
+    IN8 : STRING;
+END_VAR
+
+VAR_OUTPUT  
+    OUT1 : STRING;
+    OUT2 : STRING;
+    OUT3 : STRING;
+    OUT4 : STRING;
+    OUT5 : STRING;
+    OUT6 : STRING;
+    OUT7 : STRING;
+    OUT8 : STRING;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    OUT1 := IN1;
+    OUT2 := IN2;
+    OUT3 := IN3;
+    OUT4 := IN4;
+    OUT5 := IN5;
+    OUT6 := IN6;
+    OUT7 := IN7;
+    OUT8 := IN8;
+
+// End Function
+END_FUNCTION_BLOCK
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION SEL_S : VOID
+
+TITLE = 'String Selector' 
+NAME : 'SEL_S'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+// Function block inputs
+VAR_INPUT
+    K : BOOL ; // Selection, if true select the input "In1" as the output "Out", otherwise "In2"
+    IN1 : STRING ; // First string value
+    IN2 : STRING ; // Second string value
+END_VAR
+
+// Function block outputs
+VAR_OUTPUT
+    OUT : STRING ; // Selected input
+END_VAR
+
+// Begin Function
+BEGIN
+
+    IF K THEN 
+        OUT := IN1 ;
+    ELSE
+        OUT := IN2 ; 
+    END_IF;
+    
+// End Function
+END_FUNCTION
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION MUX_S : VOID
+
+TITLE = 'Bit controlled Multiplexer 8 strings' 
+NAME : 'MUX_S'
+VERSION : '1.0'
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+// Function block inputs
+VAR_INPUT
+    XO : STRING ; // transfer input
+    REL : BOOL ; // cascading input
+    I1 : BOOL ; // control input 1
+    I2 : BOOL ; // control input 2
+    I3 : BOOL ; // control input 3
+    I4 : BOOL ; // control input 4
+    I5 : BOOL ; // control input 5
+    I6 : BOOL ; // control input 6
+    I7 : BOOL ; // control input 7
+    I8 : BOOL ; // control input 8
+    X1 : STRING ; // data input 1
+    X2 : STRING ; // data input 2
+    X3 : STRING ; // data input 3
+    X4 : STRING ; // data input 4
+    X5 : STRING ; // data input 5
+    X6 : STRING ; // data input 6
+    X7 : STRING ; // data input 7
+    X8 : STRING ; // data input 8
+END_VAR
+
+// Function block outputs
+VAR_OUTPUT
+    Y : STRING ; // data output
+    Q : BOOL ; // cascading output
+    YOR : BOOL ; // Signals Or
+END_VAR
+
+// Begin Function
+BEGIN
+    
+    // Set Default Outs
+    Y := '';
+    Q := REL;
+    YOR := (REL OR I1 OR I2 OR I3 OR I4 OR I5 OR I6 OR I7 OR I8);
+    
+    // If Else Logic
+    IF REL THEN
+        Y := XO;
+    ELSIF I1 THEN
+        Y := X1;
+    ELSIF I2 THEN
+        Y := X2;
+    ELSIF I3 THEN
+        Y := X3;
+    ELSIF I4 THEN
+        Y := X4;
+    ELSIF I5 THEN
+        Y := X5;
+    ELSIF I6 THEN
+        Y := X6;
+    ELSIF I7 THEN
+        Y := X7;
+    ELSIF I8 THEN
+        Y := X8;
+    ELSE
+        Y := '';
+    END_IF;
+    
+// End Function
+END_FUNCTION
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////          BIT LOGIC           //////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION_BLOCK NOP_B  
+
+TITLE = 'Interface for 8 Boolean variables'
+NAME : 'NOP_B'
+VERSION : '1.0' 
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+VAR_INPUT
+    IN1 : BOOL;
+    IN2 : BOOL;
+    IN3 : BOOL;
+    IN4 : BOOL;
+    IN5 : BOOL;
+    IN6 : BOOL;
+    IN7 : BOOL;
+    IN8 : BOOL;
+END_VAR
+
+VAR_OUTPUT  
+    OUT1 : BOOL;
+    OUT2 : BOOL;
+    OUT3 : BOOL;
+    OUT4 : BOOL;
+    OUT5 : BOOL;
+    OUT6 : BOOL;
+    OUT7 : BOOL;
+    OUT8 : BOOL;
+END_VAR
+
+// Begin Function
+BEGIN
+
+    OUT1 := IN1;
+    OUT2 := IN2;
+    OUT3 := IN3;
+    OUT4 := IN4;
+    OUT5 := IN5;
+    OUT6 := IN6;
+    OUT7 := IN7;
+    OUT8 := IN8;
+
+// End Function
+END_FUNCTION_BLOCK
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION_BLOCK FST_BIT
+
+TITLE = 'First Bit Register' 
+NAME : 'FST_BIT'
+VERSION : '1.0'
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+// Function block inputs
+VAR_INPUT
+    USE_WORD : BOOL; //USE_WORD        1=use error word, 0=use bits
+    IN_WORD : WORD; //IN_WORD        Input word
+    IN00 : BOOL; //IN00        Input 0
+    IN01 : BOOL; //IN01        Input 1
+    IN02 : BOOL; //IN02        Input 2
+    IN03 : BOOL; //IN03        Input 3
+    IN04 : BOOL; //IN04        Input 4
+    IN05 : BOOL; //IN05        Input 5
+    IN06 : BOOL; //IN06        Input 6
+    IN07 : BOOL; //IN07        Input 7
+    IN08 : BOOL; //IN08        Input 8
+    IN09 : BOOL; //IN09        Input 9
+    IN10 : BOOL; //IN10        Input 10
+    IN11 : BOOL; //IN11        Input 11
+    IN12 : BOOL; //IN12        Input 12
+    IN13 : BOOL; //IN13        Input 13
+    IN14 : BOOL; //IN14        Input 14
+    IN15 : BOOL; //IN15        Input 15
+    RESET : BOOL; //RESET        Reset 
+END_VAR
+
+VAR_OUTPUT
+  OUT : BOOL; // Actual Or            
+  ACT_WORD : WORD; // Actual Bits Out
+  ALL_OUT : WORD; // All Bits Gone Out
+  FST_OUT : WORD; // First Bit Out
+  IS_OUT : BOOL; // Bit Gone Out
+END_VAR
+
+VAR_TEMP
+    I : INT;
+    TW : WORD;
+    TB AT TW : ARRAY[0..15] OF BOOL;         
+END_VAR
+
+// Begin Function
+BEGIN
+
+    // Use Word Or Bits
+    IF USE_WORD THEN
+        ACT_WORD := IN_WORD;
+    ELSE             
+        BO_TO_W (
+            IN00 := IN00,
+            IN01 := IN01,
+            IN02 := IN02,
+            IN03 := IN03,
+            IN04 := IN04,
+            IN05 := IN05,
+            IN06 := IN06,
+            IN07 := IN07,
+            IN08 := IN08,
+            IN09 := IN09,
+            IN10 := IN10,
+            IN11 := IN11,
+            IN12 := IN12,
+            IN13 := IN13,
+            IN14 := IN14,
+            IN15 := IN15,
+            OUT := ACT_WORD
+        );
+    END_IF;
+    
+    // Reset Condition
+    IF RESET THEN
+        ALL_OUT := 2#0;
+        FST_OUT := 2#0;
+        IS_OUT := FALSE;
+    END_IF;
+
+    // Output OR
+    OUT := NOT (ACT_WORD = 2#0);
+    
+    // Output All Bits Gone Up
+    ALL_OUT := ALL_OUT OR ACT_WORD;
+    
+    // Assign Swap Temp Word
+    TW := CAW (IN := ACT_WORD);
+    
+    // Execute Only On Trigger
+    IF OUT AND NOT IS_OUT THEN
+        // Iter Over Bits
+        FOR I := 0 TO 15 BY 1 DO
+            // If No Bit Before An This Bit Up
+            IF TB[I] AND NOT IS_OUT THEN
+                FST_OUT := INT_TO_WORD (REAL_TO_INT (2 ** I));
+                IS_OUT := TRUE;
+            END_IF;
+        END_FOR;
+    END_IF;
+
+// End Function
+END_FUNCTION_BLOCK
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////         FAULT LOGIC          //////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION_BLOCK DIAG_LRS
+
+TITLE = 'Fault Cascade Block' 
+NAME : 'DIAG_LRS'
+VERSION : '1.0'
+AUTHOR : 'Anthony'
+FAMILY : 'AnthonyL'
+
+// Function block inputs
+VAR_INPUT
+    ENB_BEFORE : BOOL; //ENB_BEFORE  More Faults before
+    AU_R { S7_m_c := 'true'; S7_visible := 'true' }: BOOL; //AU_R        Automatic release drive
+    USE_WORD : BOOL; //USE_WORD    1=use error word, 0=use bits
+    ERROR_W : WORD; //ERROR_W     Fault word  
+    FAULT_01 : BOOL; //FAULT_01    Fault reason 1
+    FAULT_02 : BOOL; //FAULT_02    Fault reason 2
+    FAULT_03 : BOOL; //FAULT_03    Fault reason 3
+    FAULT_04 : BOOL; //FAULT_04    Fault reason 4
+    FAULT_05 : BOOL; //FAULT_05    Fault reason 5
+    FAULT_06 : BOOL; //FAULT_06    Fault reason 6
+    FAULT_07 : BOOL; //FAULT_07    Fault reason 7
+    FAULT_08 : BOOL; //FAULT_08    Fault reason 8
+    FAULT_09 : BOOL; //FAULT_09    Fault reason 9
+    FAULT_10 : BOOL; //FAULT_10    Fault reason 10
+    FAULT_11 : BOOL; //FAULT_11    Fault reason 11
+    FAULT_12 : BOOL; //FAULT_12    Fault reason 12
+    FAULT_13 : BOOL; //FAULT_13    Fault reason 13
+    FAULT_14 : BOOL; //FAULT_14    Fault reason 14
+    FAULT_15 : BOOL; //FAULT_15    Fault reason 15
+    FAULT_16 : BOOL; //FAULT_16    Fault reason 16
+    TEXT_01 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_01     Fault text 1
+    TEXT_02 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_02     Fault text 2
+    TEXT_03 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_03     Fault text 3
+    TEXT_04 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_04     Fault text 4
+    TEXT_05 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_05     Fault text 5
+    TEXT_06 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_06     Fault text 6
+    TEXT_07 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_07     Fault text 7
+    TEXT_08 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_08     Fault text 8
+    TEXT_09 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_09     Fault text 9
+    TEXT_10 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_10     Fault text 10
+    TEXT_11 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_11     Fault text 11
+    TEXT_12 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_12     Fault text 12
+    TEXT_13 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_13     Fault text 13
+    TEXT_14 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_14     Fault text 14
+    TEXT_15 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_15     Fault text 15
+    TEXT_16 { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_16     Fault text 16
+    TEXT_DEF { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //TEXT_DEF    Default Text
+END_VAR
+
+VAR_IN_OUT
+    ACK_FAULT { S7_m_c := 'true'; S7_visible := 'true' }: BOOL; //ACK_FAULT   Reset faults on this block
+    ACK_GEN { S7_m_c := 'true'; S7_visible := 'true' }: BOOL; //ACK_GEN     Reset all faults in area
+    BLOCK { S7_m_c := 'true'; S7_visible := 'true' }: WORD; //BLOCK       Block Fault event
+END_VAR
+
+VAR_OUTPUT
+    FAULT { S7_m_c := 'true'; S7_visible := 'true' }: DWORD; //FAULT        Combined Actual / Last Fault Code            
+    ACTUAL_FAULT { S7_m_c := 'true'; S7_visible := 'true' }: WORD; //ACTUAL_FAULT Actual Fault Code
+    LAST_FAULT { S7_m_c := 'true'; S7_visible := 'true' }: WORD; //LAST_FAULT   Last Fault Code
+    FST_FAULT { S7_m_c := 'true'; S7_visible := 'true' }: WORD; //FST_FAULT    First Fault Code appeared
+    FAULT_TEXT { S7_m_c := 'true'; S7_visible := 'true' }: STRING[70]; //FAULT_TEXT    First Fault Text
+    ENB_DRIVE { S7_m_c := 'true'; S7_visible := 'true' }: BOOL; //ENB_DRIVE    Enable to Drive
+    ACT_FAULT { S7_m_c := 'true'; S7_visible := 'true' }: BOOL; //ACT_FAULT    Fault is actual
+    GONE_FAULT { S7_m_c := 'true'; S7_visible := 'true' }: BOOL; //GONE_FAULT   Fault is gone not acknowledged
+    QACK : BOOL; //QACK        Fault being reset
+END_VAR
+
+VAR
+    FST_BIT_I: FST_BIT; // FST_BIT Instance Block
+END_VAR
+
+VAR_TEMP
+    TB1 : BOOL;
+    TW : WORD;
+    TBY AT TW : ARRAY[0..1] OF BYTE;
+    TB AT TW : ARRAY[0..15] OF BOOL;
+END_VAR
+
+// Begin Function
+BEGIN
+    
+    // Use Word Or Bits
+    IF USE_WORD THEN
+        ACTUAL_FAULT := ERROR_W;
+    ELSE             
+        BO_TO_W (
+            IN00 := FAULT_01,
+            IN01 := FAULT_02,
+            IN02 := FAULT_03,
+            IN03 := FAULT_04,
+            IN04 := FAULT_05,
+            IN05 := FAULT_06,
+            IN06 := FAULT_07,
+            IN07 := FAULT_08,
+            IN08 := FAULT_09,
+            IN09 := FAULT_10,
+            IN10 := FAULT_11,
+            IN11 := FAULT_12,
+            IN12 := FAULT_13,
+            IN13 := FAULT_14,
+            IN14 := FAULT_15,
+            IN15 := FAULT_16,
+            OUT := ACTUAL_FAULT
+        );    
+    END_IF;
+    
+    // Bypass Faults
+    ACTUAL_FAULT := ACTUAL_FAULT AND BLOCK;
+    
+    // Acknowledge
+    TB1 := QACK;
+    QACK := AU_R OR ACK_FAULT OR ACK_GEN;
+    TB1 := QACK AND NOT TB1;
+
+    // Get First Bit Out
+    FST_BIT_I(
+        USE_WORD := TRUE,
+        IN_WORD := ACTUAL_FAULT,
+        RESET := TB1
+    );
+    
+    // Assign First Bit Out
+    ACT_FAULT := FST_BIT_I.OUT;
+    LAST_FAULT := FST_BIT_I.ALL_OUT;
+    FST_FAULT := FST_BIT_I.FST_OUT; 
+    GONE_FAULT := FST_BIT_I.IS_OUT;
+    
+    // Enable Drive
+    ENB_DRIVE := ENB_BEFORE AND NOT ACT_FAULT;
+    
+    // Assign value of FAULT Double Word
+    W_TO_DW (
+        IN0 := ACTUAL_FAULT,
+        IN1 := LAST_FAULT,
+        OUT := FAULT
+    );
+    
+    // Assign Swap Temp Word
+    TW := CAW (IN := FST_FAULT);
+    
+    // Get Fault Text
+    IF NOT GONE_FAULT THEN
+        FAULT_TEXT := TEXT_DEF;
+    ELSE
+        // On Byte 1 Fault
+        IF NOT (TBY[0] = 2#0) THEN
+            // Get Fault Text
+            MUX_S (
+                XO := '',
+                REL := FALSE,
+                I1 := TB[0],
+                I2 := TB[1],
+                I3 := TB[2],
+                I4 := TB[3],
+                I5 := TB[4],
+                I6 := TB[5],
+                I7 := TB[6],
+                I8 := TB[7],
+                X1 := TEXT_01,
+                X2 := TEXT_02,
+                X3 := TEXT_03,
+                X4 := TEXT_04,
+                X5 := TEXT_05,
+                X6 := TEXT_06,
+                X7 := TEXT_07,
+                X8 := TEXT_08,
+                Y := FAULT_TEXT,
+                Q := TB1,
+                YOR := TB1
+            );
+        // On Byte 2 Fault
+        ELSIF NOT (TBY[1] = 2#0) THEN
+            // Get Fault Text
+            MUX_S (
+                XO := '',
+                REL := FALSE,
+                I1 := TB[8],
+                I2 := TB[9],
+                I3 := TB[10],
+                I4 := TB[11],
+                I5 := TB[12],
+                I6 := TB[13],
+                I7 := TB[14],
+                I8 := TB[15],
+                X1 := TEXT_09,
+                X2 := TEXT_10,
+                X3 := TEXT_11,
+                X4 := TEXT_12,
+                X5 := TEXT_13,
+                X6 := TEXT_14,
+                X7 := TEXT_15,
+                X8 := TEXT_16,
+                Y := FAULT_TEXT,
+                Q := TB1,
+                YOR := TB1
+            );
+        END_IF;
+    END_IF;
+
+// End Function
+END_FUNCTION_BLOCK
+
+
+////////////////////////////////////////////////////////////////////////////////////////
