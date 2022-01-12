@@ -8,9 +8,9 @@ char* GetPBTagChar70 (char* dest, char* tagname)
 	// Get the current value of the tag
 	pszValue = GetTagChar(tagname);
 
-    // Check string
-	if (pszValue != NULL) {
-        // Copy the string
+    	// Check string
+	if(pszValue != NULL) {
+        	// Copy the string
 		strncpy(dest, pszValue, 70);
 	};
 

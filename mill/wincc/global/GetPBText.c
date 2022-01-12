@@ -15,9 +15,7 @@ char* GetPBText (char* dest, char* text)
       		GetPBTagReference(temp, dest);
 			strcpy(dest, temp);
 		// Reset
-      	} else {
-            i = 16;
-        };
+      	} else { i = 16; };
 	};
 
 	// Return result

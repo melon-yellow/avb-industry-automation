@@ -7,9 +7,9 @@ char* GetPBTagReference (char* dest, char* text)
 	char tokensi[11];
 
 	// Copy the string 
-    strcpy (temp, text);
+    	strcpy (temp, text);
 
-    // Remove "</>"
+    	// Remove "</>"
 	strcpy (temp, strtok (temp, "<"));
 	temp[strlen (temp) - 1] = '\0';
 	
@@ -18,15 +18,15 @@ char* GetPBTagReference (char* dest, char* text)
 	strcat (tagname, strtok (temp, "/"));
 	strcpy (tokensi, strtok (NULL, "/"));
 	strcat (tagname, "/PREVENT_BILLET/");
-    strcat (tagname, strtok (NULL, "/"));
-    strcat (tagname, "_");
-    strcat (tagname, tokensi);
-    strcat (tagname, ".FAULT_TEXT");
+    	strcat (tagname, strtok (NULL, "/"));
+    	strcat (tagname, "_");
+    	strcat (tagname, tokensi);
+    	strcat (tagname, ".FAULT_TEXT");
 
 	// Reset Temp
 	strcpy(temp, "");
 
-    // Return tag value
+    	// Return tag value
 	strcpy (dest, GetPBTagChar70 (temp, tagname));
-    return dest;
+    	return dest;
 }
